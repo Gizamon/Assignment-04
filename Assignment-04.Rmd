@@ -10,49 +10,77 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(kableExtra)
+library(readr)
 ```
-   
+
 <!-- (2) You can leave this introduction as-is -->
 ## Introduction  
-Based upon anecdotal evidence (personal experience), Dr. Franklund believes that there may be an association between the type of vehicle people drive with the liklihood that they will adorn that vehicle with window and/or bumper stickers. This brief project serves both to test that hypothesis and provide an opportunity to practice collecting and using "tidy" data.
+Do people have a certain car they prefer and do those people have things in common like color, bodystyle, and yes or no on stickers? well that just what we went to do is find this out.
 
 <!-- (3) Briefly describe what data you collected, how, when, and where you collected it, and the file name and format of your dataset. -->
 ## Procedure
+To record this i went through a parking lot in GR alpine i chose to use the Meijer since using a store would not only bring diversity but there would be lots of different cars.
 
 
 <!-- (4) Insert an R chunk here to load your dataset into a tibble --> 
 
+```{r, echo = FALSE, include = FALSE}
+My_Cars <- read_csv("car data.csv")
+```
 
 ## Results
 
 ### Window/bumper sticker frequency compared to vehicle type
-<!-- (5) Insert an R chunk here to analyze and plot the portion of vehicles with stickers by type -->
+```{r, echo = FALSE}
+ggplot(My_Cars, aes(x = Sticker, fill = Type)) + 
+  geom_bar(position = "dodge")
+```
 
 
-<!-- (6) Write a few sentences using markdown to summarize the plot above and the ANOVA analysis that follows. --> 
 
+```{r, echo = FALSE}
+type.aov <- aov(Sticker ~ Type, data = My_Cars)
+summary(type.aov)
+```
+Through out this stickers had a greater chance of finding on a Truck than anything else if you only look at the graph but there were about 26 trucks and only 16 had stickers or freq of .615 where sedans actually had the greatest chance with only 19 cars 13 of them had stickers which is a freq of .684. Utility van actually has the greatest odds but sample size is too small to say if it matters so for this we'll go with sedan which has about 1/5th of the total number counted
 
-<!-- (7) Insert an R chunk here to perform a one-way ANOVA analysis comparing sticker presence vs. car type. --> 
+by car type first to last on freq
+Type        Freq
+Util-Van    .750
+Sedan       .684
+Van         .625
+Truck       .615
+SUV         .368
+Xover       .250
 
 ### Window/bumper sticker frequency compared to vehicle make
-<!-- (8) Insert an R chunk here to analyze and plot the portion of vehicles with stickers by make. -->
+```{r, echo = FALSE}
+ggplot(My_Cars, aes(x = Sticker, fill = Make)) + 
+  geom_bar(position = "dodge")
+```
 
+.
 
-<!-- (9) Write a few sentences using markdown to summarize the plot above and the ANOVA analysis that follows. --> 
-
-
-<!-- (10) Insert an R chunk here to perform a one-way ANOVA analysis comparing sticker presence vs. car make. --> 
+```{r, echo = FALSE}
+make.aov <- aov(Sticker ~ Make, data = My_Cars)
+summary(make.aov)
+```
+now this one actually surprised me Honda came out on top, but the closest competitor Jeep didn't even place close to them.
 
 ### Window/bumper sticker frequency compared to vehicle color
-<!-- (11) Insert an R chunk here to analyze and plot the portion of vehicles with stickers by color. -->
-
-
-<!-- (12) Write a few sentences using markdown to summarize the plot above and the ANOVA analysis that follows. --> 
-
-
-<!-- (13) Insert an R chunk here to perform a one-way ANOVA analysis comparing sticker presence vs. car color. --> 
+```{r, echo = FALSE}
+ggplot(My_Cars, aes(x = Sticker, fill = Color)) + 
+  geom_bar(position = "dodge")
+```
 
 
 
+```{r, echo = FALSE}
+color.aov <- aov(Sticker ~ Color, data = My_Cars)
+summary(color.aov)
+```
+Color seemed like more people stickered their car if it was green, but honda had the most number of green 12 of the 27 were honda which honda had 25 of them now this might of been since the area i was in has a huge honda dealer, but i've always thought of honda's to be nicer cars that people wouldn't put stickers on.
 ## Conclusions
-<!-- (14) Wrap up your assignment with a brief discussion of what you found. Did you find any evidence to support Dr. Franklund's initial hypothesis? How do you interpret your findings? --> 
+it seems there might be a correlation between type, make, and color when it comes to do you sticker or not, but ultimately i think stickers are away for people to express themselves and i think people been using their cars to do so more during Covid-19 then another time if we would of tried last year it probably would of been better result and next year might be different yet. there is a trend but i don't think its as obvious as say people of one type do it. its more like people are looking for a creative outlet cause their board at home and driving is still happening so more are using cars to express than before, or it could always be culture is shifting towards that kinda like how tattoos are more accepted and thought as a good idea for people to express themselves.
+ 
+
